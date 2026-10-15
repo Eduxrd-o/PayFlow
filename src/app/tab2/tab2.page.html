@@ -1,17 +1,122 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Tab 2
-    </ion-title>
+  <ion-toolbar color="primary">
+    <ion-title>Registro de Compra</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" class="ion-padding compra-content">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Tab 2</ion-title>
+      <ion-title size="large">Registro de Compra</ion-title>
     </ion-toolbar>
   </ion-header>
 
-  <app-explore-container name="Tab 2 page"></app-explore-container>
+  <div class="form-container">
+    <ion-card class="form-card">
+      <ion-card-header>
+        <div class="card-icon-header">
+          <ion-icon name="bag-handle-outline"></ion-icon>
+        </div>
+        <ion-card-title>Detalles del Producto</ion-card-title>
+        <ion-card-subtitle>Ingresa la información para calcular el pago</ion-card-subtitle>
+      </ion-card-header>
+
+      <ion-card-content>
+        <form [formGroup]="compraForm" (ngSubmit)="enviarFormulario()">
+          <!-- Campo 1: Nombre del producto -->
+          <div class="input-group" [class.has-error]="nombreInvalid">
+            <ion-item fill="outline" class="custom-item">
+              <ion-icon slot="start" name="pricetag-outline" color="primary"></ion-icon>
+              <ion-input
+                label="Nombre del Producto *"
+                labelPlacement="floating"
+                placeholder="Ej. Laptop Dell XPS 15"
+                formControlName="nombre"
+                type="text"
+                clearInput="true"
+              ></ion-input>
+            </ion-item>
+            <div class="error-feedback" *ngIf="nombreInvalid">
+              <ion-icon name="alert-circle-outline"></ion-icon>
+              <span>El nombre del producto es obligatorio.</span>
+            </div>
+          </div>
+
+          <!-- Campo 2: Cantidad -->
+          <div class="input-group" [class.has-error]="cantidadInvalid">
+            <ion-item fill="outline" class="custom-item">
+              <ion-icon slot="start" name="layers-outline" color="primary"></ion-icon>
+              <ion-input
+                label="Cantidad *"
+                labelPlacement="floating"
+                placeholder="Ej. 3"
+                formControlName="cantidad"
+                type="number"
+                min="1"
+                step="1"
+              ></ion-input>
+            </ion-item>
+            <div class="error-feedback" *ngIf="cantidadInvalid">
+              <ion-icon name="alert-circle-outline"></ion-icon>
+              <span *ngIf="compraForm.get('cantidad')?.hasError('required')">
+                La cantidad es obligatoria.
+              </span>
+              <span *ngIf="compraForm.get('cantidad')?.hasError('min') || compraForm.get('cantidad')?.hasError('pattern')">
+                Debe ser un número entero mayor que cero (mínimo 1).
+              </span>
+            </div>
+          </div>
+
+          <!-- Campo 3: Precio unitario -->
+          <div class="input-group" [class.has-error]="precioInvalid">
+            <ion-item fill="outline" class="custom-item">
+              <ion-text slot="start" color="primary" class="currency-symbol">$</ion-text>
+              <ion-input
+                label="Precio Unitario ($) *"
+                labelPlacement="floating"
+                placeholder="Ej. 25.50"
+                formControlName="precioUnitario"
+                type="number"
+                min="0.01"
+                step="0.01"
+              ></ion-input>
+            </ion-item>
+            <div class="error-feedback" *ngIf="precioInvalid">
+              <ion-icon name="alert-circle-outline"></ion-icon>
+              <span *ngIf="compraForm.get('precioUnitario')?.hasError('required')">
+                El precio unitario es obligatorio.
+              </span>
+              <span *ngIf="compraForm.get('precioUnitario')?.hasError('min')">
+                El precio unitario debe ser mayor que cero ($0.01 o más).
+              </span>
+            </div>
+          </div>
+
+          <!-- Vista previa del subtotal estimado -->
+          <div class="preview-box" *ngIf="subtotalEstimado > 0">
+            <div class="preview-header">
+              <ion-icon name="calculator-outline"></ion-icon>
+              <span>Subtotal Calculado</span>
+            </div>
+            <div class="preview-amount">
+              ${{ subtotalEstimado | number:'1.2-2' }}
+            </div>
+          </div>
+
+          <!-- Botón de Envío -->
+          <ion-button
+            type="submit"
+            expand="block"
+            shape="round"
+            color="primary"
+            class="submit-btn"
+          >
+            <ion-icon slot="start" name="cart-outline"></ion-icon>
+            Continuar al Pago
+            <ion-icon slot="end" name="arrow-forward-outline"></ion-icon>
+          </ion-button>
+        </form>
+      </ion-card-content>
+    </ion-card>
+  </div>
 </ion-content>

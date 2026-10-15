@@ -1,0 +1,136 @@
+.compra-content {
+  --background: #f8fafc;
+}
+
+.form-container {
+  max-width: 550px;
+  margin: 10px auto;
+}
+
+.form-card {
+  border-radius: 20px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+  background: #ffffff;
+  padding: 8px;
+
+  .card-icon-header {
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    background: #e0f2fe;
+    color: #0284c7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+    margin-bottom: 12px;
+  }
+
+  ion-card-title {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: #0f172a;
+  }
+
+  ion-card-subtitle {
+    font-size: 0.9rem;
+    color: #64748b;
+  }
+}
+
+.input-group {
+  margin-bottom: 18px;
+
+  .custom-item {
+    --background: #ffffff;
+    --color: #0f172a;
+    color: #0f172a;
+    --border-radius: 12px;
+    margin-bottom: 4px;
+
+    ion-input {
+      --color: #0f172a;
+      --placeholder-color: #64748b;
+      color: #0f172a;
+    }
+
+    .currency-symbol {
+      font-size: 1.25rem;
+      font-weight: bold;
+      margin-right: 6px;
+      color: #0284c7;
+    }
+  }
+
+  &.has-error {
+    .custom-item {
+      --border-color: #ef4444 !important;
+      --highlight-color-focused: #ef4444 !important;
+    }
+  }
+
+  .error-feedback {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #ef4444;
+    font-size: 0.82rem;
+    margin-top: 5px;
+    padding-left: 8px;
+    animation: fadeIn 0.2s ease;
+
+    ion-icon {
+      font-size: 1rem;
+    }
+  }
+}
+
+.preview-box {
+  background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+  border: 1px solid #bbf7d0;
+  border-radius: 14px;
+  padding: 14px 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 22px;
+  animation: fadeIn 0.3s ease;
+
+  .preview-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #166534;
+    font-weight: 600;
+    font-size: 0.95rem;
+
+    ion-icon {
+      font-size: 1.25rem;
+    }
+  }
+
+  .preview-amount {
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: #15803d;
+  }
+}
+
+.submit-btn {
+  --box-shadow: 0 8px 18px rgba(56, 128, 255, 0.35);
+  font-weight: 600;
+  font-size: 1rem;
+  margin-top: 10px;
+  height: 48px;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

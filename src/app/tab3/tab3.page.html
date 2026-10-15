@@ -1,17 +1,189 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Tab 3
-    </ion-title>
+  <ion-toolbar color="primary">
+    <ion-title>Cálculo de Pago</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" class="ion-padding pago-content">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Tab 3</ion-title>
+      <ion-title size="large">Cálculo de Pago</ion-title>
     </ion-toolbar>
   </ion-header>
 
-  <app-explore-container name="Tab 3 page"></app-explore-container>
+  <div class="content-container">
+    <!-- Estado vacío si aún no hay compra registrada -->
+    <div class="empty-state" *ngIf="!compraService.tieneCompra()">
+      <div class="empty-icon-wrap">
+        <ion-icon name="cart-outline"></ion-icon>
+      </div>
+      <h2>No hay compra activa</h2>
+      <p>Para calcular un pago, primero debes registrar un producto en la pestaña de Compra.</p>
+      <ion-button shape="round" color="primary" (click)="irACompra()">
+        <ion-icon slot="start" name="arrow-back-outline"></ion-icon>
+        Ir a Registrar Compra
+      </ion-button>
+    </div>
+
+    <!-- Contenido cuando SÍ hay compra activa -->
+    <ng-container *ngIf="compraService.tieneCompra()">
+      <!-- Tarjeta 1: Resumen de la Compra Recibida -->
+      <ion-card class="summary-card">
+        <ion-card-header>
+          <div class="summary-badge">
+            <ion-badge color="success">
+              <ion-icon name="checkmark-circle-outline"></ion-icon> Compra Registrada
+            </ion-badge>
+          </div>
+          <ion-card-title>{{ compraService.compraActual()?.nombre }}</ion-card-title>
+          <ion-card-subtitle>
+            {{ compraService.compraActual()?.cantidad }} unidad(es) × ${{ compraService.compraActual()?.precioUnitario | number:'1.2-2' }}
+          </ion-card-subtitle>
+        </ion-card-header>
+
+        <ion-card-content>
+          <div class="subtotal-row">
+            <div class="subtotal-label">
+              <ion-icon name="receipt-outline"></ion-icon>
+              <span>Subtotal Recibido:</span>
+            </div>
+            <div class="subtotal-value">
+              ${{ compraService.subtotal() | number:'1.2-2' }}
+            </div>
+          </div>
+        </ion-card-content>
+      </ion-card>
+
+      <!-- Tarjeta 2: Formulario de Pago y Descuento -->
+      <ion-card class="payment-card">
+        <ion-card-header>
+          <ion-card-title>Liquidación y Descuento</ion-card-title>
+          <ion-card-subtitle>Ingresa el porcentaje de descuento y el efectivo recibido</ion-card-subtitle>
+        </ion-card-header>
+
+        <ion-card-content>
+          <form [formGroup]="pagoForm">
+            <!-- Descuento porcentual -->
+            <div class="input-group" [class.has-error]="descuentoInvalid">
+              <ion-item fill="outline" class="custom-item">
+                <ion-icon slot="start" name="pricetag-outline" color="primary"></ion-icon>
+                <ion-input
+                  label="Descuento (%) *"
+                  labelPlacement="floating"
+                  placeholder="0 - 100"
+                  formControlName="descuento"
+                  type="number"
+                  min="0"
+                  max="100"
+                  step="1"
+                ></ion-input>
+              </ion-item>
+              <div class="error-feedback" *ngIf="descuentoInvalid">
+                <ion-icon name="alert-circle-outline"></ion-icon>
+                <span>El descuento debe ser un valor entre 0 y 100%.</span>
+              </div>
+            </div>
+
+            <!-- Dinero entregado por el cliente -->
+            <div class="input-group" [class.has-error]="dineroInvalid">
+              <ion-item fill="outline" class="custom-item">
+                <ion-icon slot="start" name="cash-outline" color="success"></ion-icon>
+                <ion-input
+                  label="Dinero Entregado por Cliente ($) *"
+                  labelPlacement="floating"
+                  placeholder="Ej. 50.00"
+                  formControlName="dineroRecibido"
+                  type="number"
+                  min="0"
+                  step="0.01"
+                ></ion-input>
+              </ion-item>
+              <div class="error-feedback" *ngIf="dineroInvalid">
+                <ion-icon name="alert-circle-outline"></ion-icon>
+                <span>El dinero recibido debe ser mayor o igual a cero ($0.00).</span>
+              </div>
+            </div>
+          </form>
+        </ion-card-content>
+      </ion-card>
+
+      <!-- Tarjeta 3: Resultados del Cálculo -->
+      <ion-card class="results-card">
+        <ion-card-header>
+          <ion-card-title>Desglose Final</ion-card-title>
+        </ion-card-header>
+
+        <ion-card-content>
+          <!-- Fila Subtotal Base -->
+          <div class="calc-row">
+            <span class="calc-label">Subtotal:</span>
+            <span class="calc-val">${{ compraService.subtotal() | number:'1.2-2' }}</span>
+          </div>
+
+          <!-- Fila Descuento -->
+          <div class="calc-row discount-row">
+            <span class="calc-label">
+              <ion-icon name="trending-down-outline"></ion-icon>
+              Descuento ({{ descuentoPorcentaje }}%):
+            </span>
+            <span class="calc-val discount-val">-${{ montoDescuento | number:'1.2-2' }}</span>
+          </div>
+
+          <div class="divider"></div>
+
+          <!-- Fila Total Final -->
+          <div class="calc-row total-row">
+            <span class="total-label">Total Final a Pagar:</span>
+            <span class="total-val">${{ totalFinal | number:'1.2-2' }}</span>
+          </div>
+
+          <!-- Fila Dinero Entregado -->
+          <div class="calc-row delivered-row" *ngIf="haIngresadoDinero">
+            <span class="calc-label">Dinero Entregado:</span>
+            <span class="calc-val">${{ dineroRecibidoValor | number:'1.2-2' }}</span>
+          </div>
+
+          <!-- Bloque de Saldo o Cambio -->
+          <div class="balance-container" *ngIf="haIngresadoDinero">
+            <!-- Caso 1: Cambio a Favor del Cliente -->
+            <div class="balance-banner change-banner" *ngIf="dineroSuficiente">
+              <div class="banner-top">
+                <ion-icon name="checkmark-circle-outline"></ion-icon>
+                <span>CAMBIO A ENTREGAR</span>
+              </div>
+              <div class="banner-amount">
+                ${{ cambio | number:'1.2-2' }}
+              </div>
+              <p class="banner-desc">El pago cubre la totalidad del importe requerido.</p>
+            </div>
+
+            <!-- Caso 2: Saldo Pendiente por Pagar -->
+            <div class="balance-banner pending-banner" *ngIf="!dineroSuficiente">
+              <div class="banner-top">
+                <ion-icon name="alert-circle-outline"></ion-icon>
+                <span>SALDO PENDIENTE</span>
+              </div>
+              <div class="banner-amount">
+                ${{ saldoPendiente | number:'1.2-2' }}
+              </div>
+              <p class="banner-desc">El dinero entregado no es suficiente para cubrir el total.</p>
+            </div>
+          </div>
+
+          <!-- Botón de Nueva Compra -->
+          <ion-button
+            expand="block"
+            fill="outline"
+            shape="round"
+            color="medium"
+            class="reset-btn"
+            (click)="nuevaCompra()"
+          >
+            <ion-icon slot="start" name="refresh-outline"></ion-icon>
+            Iniciar Nueva Compra
+          </ion-button>
+        </ion-card-content>
+      </ion-card>
+    </ng-container>
+  </div>
 </ion-content>

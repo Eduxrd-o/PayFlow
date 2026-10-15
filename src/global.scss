@@ -34,4 +34,15 @@
 
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
-@import '@ionic/angular/css/palettes/dark.system.css';
+/* @import '@ionic/angular/css/palettes/dark.system.css'; */
+
+/* Asegurar texto oscuro y visible en campos de texto */
+ion-input {
+  --color: #0f172a !important;
+  --placeholder-color: #64748b !important;
+  color: #0f172a !important;
+}
+
+ion-input input {
+  color: #0f172a !important;
+}

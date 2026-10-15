@@ -1,0 +1,125 @@
+.welcome-content {
+  --background: #f8fafc;
+}
+
+.hero-image-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 12px 8px;
+  max-width: 600px;
+  margin: 0 auto;
+
+  .hero-image {
+    width: 100%;
+    max-height: 250px;
+    object-fit: contain;
+    border-radius: 16px;
+    transition: transform 0.3s ease;
+
+    &:hover {
+      transform: scale(1.02);
+    }
+  }
+}
+
+.welcome-card {
+  max-width: 600px;
+  margin: 12px auto;
+  border-radius: 20px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+  background: #ffffff;
+
+  .header-badge {
+    margin-bottom: 8px;
+  }
+
+  ion-card-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #0f172a;
+  }
+
+  ion-card-subtitle {
+    font-size: 0.95rem;
+    color: #64748b;
+    margin-top: 4px;
+  }
+
+  .description {
+    color: #475569;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin-bottom: 20px;
+  }
+
+  .start-btn {
+    --box-shadow: 0 8px 16px rgba(56, 128, 255, 0.3);
+    font-weight: 600;
+    margin-top: 8px;
+  }
+}
+
+.features-section {
+  max-width: 600px;
+  margin: 20px auto 40px auto;
+
+  .features-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #1e293b;
+    padding-left: 8px;
+    margin-bottom: 8px;
+  }
+
+  .feature-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    background: #ffffff;
+    padding: 14px;
+    border-radius: 14px;
+    border: 1px solid #f1f5f9;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+    height: 100%;
+
+    .feature-icon {
+      width: 44px;
+      height: 44px;
+      min-width: 44px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+
+      &.cart-bg {
+        background: #e0f2fe;
+        color: #0284c7;
+      }
+      &.calc-bg {
+        background: #fef3c7;
+        color: #d97706;
+      }
+      &.cash-bg {
+        background: #dcfce7;
+        color: #16a34a;
+      }
+    }
+
+    .feature-text {
+      h4 {
+        margin: 0 0 4px 0;
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: #1e293b;
+      }
+      p {
+        margin: 0;
+        font-size: 0.85rem;
+        color: #64748b;
+        line-height: 1.35;
+      }
+    }
+  }
+}

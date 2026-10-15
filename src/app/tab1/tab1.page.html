@@ -1,17 +1,92 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Tab 1
-    </ion-title>
+  <ion-toolbar color="primary">
+    <ion-title>PayFlow</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" class="ion-padding welcome-content">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Tab 1</ion-title>
+      <ion-title size="large">PayFlow</ion-title>
     </ion-toolbar>
   </ion-header>
 
-  <app-explore-container name="Tab 1 page"></app-explore-container>
+  <!-- Imagen / Hero de Bienvenida -->
+  <div class="hero-image-container">
+    <img
+      src="assets/images/welcome-hero.svg"
+      alt="Ilustración PayFlow"
+      class="hero-image"
+    />
+  </div>
+
+  <!-- Tarjeta de Bienvenida -->
+  <ion-card class="welcome-card">
+    <ion-card-header>
+      <div class="header-badge">
+        <ion-badge color="secondary">
+          <ion-icon name="sparkles-outline"></ion-icon> Versión 1.0
+        </ion-badge>
+      </div>
+      <ion-card-title>Bienvenido a PayFlow</ion-card-title>
+      <ion-card-subtitle>Gestión inteligente de compras y cálculo de pagos</ion-card-subtitle>
+    </ion-card-header>
+
+    <ion-card-content>
+      <p class="description">
+        Esta aplicación te permite registrar la compra de cualquier producto, validar sus cantidades y precios, y calcular en segundos el descuento aplicable junto con el saldo pendiente o cambio al cliente.
+      </p>
+
+      <ion-button expand="block" shape="round" color="primary" class="start-btn" (click)="irACompra()">
+        <ion-icon slot="start" name="cart-outline"></ion-icon>
+        Registrar Nueva Compra
+        <ion-icon slot="end" name="arrow-forward-outline"></ion-icon>
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Características destacadas -->
+  <div class="features-section">
+    <h3 class="features-title">¿Cómo funciona?</h3>
+
+    <ion-grid>
+      <ion-row>
+        <ion-col size="12" size-md="4">
+          <div class="feature-item">
+            <div class="feature-icon cart-bg">
+              <ion-icon name="cart-outline"></ion-icon>
+            </div>
+            <div class="feature-text">
+              <h4>1. Registro Rápido</h4>
+              <p>Ingresa el producto, cantidad entera y precio unitario con validación en tiempo real.</p>
+            </div>
+          </div>
+        </ion-col>
+
+        <ion-col size="12" size-md="4">
+          <div class="feature-item">
+            <div class="feature-icon calc-bg">
+              <ion-icon name="calculatorOutline"></ion-icon>
+            </div>
+            <div class="feature-text">
+              <h4>2. Descuentos</h4>
+              <p>Aplica un porcentaje de descuento entre 0% y 100% calculando el total al instante.</p>
+            </div>
+          </div>
+        </ion-col>
+
+        <ion-col size="12" size-md="4">
+          <div class="feature-item">
+            <div class="feature-icon cash-bg">
+              <ion-icon name="cash-outline"></ion-icon>
+            </div>
+            <div class="feature-text">
+              <h4>3. Liquidación</h4>
+              <p>Registra el dinero recibido y obtén el cambio exacto o el saldo pendiente.</p>
+            </div>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
 </ion-content>
